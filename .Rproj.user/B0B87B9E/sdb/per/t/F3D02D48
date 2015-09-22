@@ -1,0 +1,17 @@
+{
+    "contents" : "\nlibrary(\"ggplot2\")\nds = read.table(\"gmcar_price.txt\", header=T, sep='\\t')\n\n##############################################################\n# Scatter plots\n##############################################################\n\n# From last time\nplot(ds$Mileage, ds$Price, col=ds$Make)\n\n# ggplot (and its convenience function 'qplot') is a more powerful visualization package for R\n# the syntax of q-plot is similar to plot, but it allows us to set the \"context\" of the plot\n# with a 'data=ds' command.  With this, fields are allowed to be referred to without the leading 'ds$'\nqplot(Mileage, Price, data=ds)\n\n# Like plot, we can add options for color and size.  All properties can be set either to a constant\n# or to a field\nqplot(Mileage, Price, col=Make, data=ds)\nqplot(Mileage, Price, col=Make, size = 5, data=ds)\nqplot(Mileage, Price, col=Make, size = Doors, data=ds)\n\n# Now we change the scale by \"adding\" an option to the scale_size.  This is a very common syntax\n# in ggplot that we will see more of as we go\nqplot(Mileage, Price, col=Make, size = Doors, data=ds) + scale_size(range = c(3, 4))\n\n##############################################################\n# Line Graphs\n##############################################################\n\nx = seq(0, 10, by=.1)\ny = x * x + rnorm(length(x)) * 1.0\nqplot(x, y, col=\"red\", geom=\"line\")\n\nqplot(x, y, col=\"red\", geom=\"line\") + geom_line(size=2)\n\nqplot(x, y, col=y, geom=\"line\") + geom_line(size=2)\n\nqplot(x, y, col=\"red\", geom=\"line\") + geom_line(size=2) + \n  scale_x_continuous(limits=c(-2, 10), breaks = 1:10) +\n  scale_y_continuous(limits = c(-10, 110)) + theme_minimal()\n\n\n##############################################################\n# Box plots\n##############################################################\n\nqplot(Make, Price, data=ds, geom=\"boxplot\")\n\nqplot(Make, Price, data=ds, geom=\"boxplot\") + \n      geom_boxplot(fill=\"yellow\", color=\"blue\") + \n      geom_point(color=\"red\")\n\nqplot(Make, Price, data=ds, geom=\"boxplot\") + \n  geom_boxplot(fill=\"yellow\", color=\"blue\") + \n  geom_point(position=position_jitter(w=.1, h = 0), col=\"red\", alpha=.5, size=2)\n\nqplot(Make, Price, data=ds, geom=\"boxplot\") + \n  geom_boxplot(fill=\"yellow\", color=\"blue\", notch=T) + \n  geom_point(position=position_jitter(w=.1, h = 0), col=\"red\", alpha=.5, size=2)\n\n\n",
+    "created" : 1442880404163.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2052188209",
+    "id" : "F3D02D48",
+    "lastKnownWriteTime" : 1442886470,
+    "path" : "D:/CSC465/CSC465/gmcar-2.r",
+    "project_path" : "gmcar-2.r",
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "type" : "r_source"
+}
