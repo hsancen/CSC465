@@ -1,0 +1,17 @@
+{
+    "contents" : "library(ggplot2)\n\nds = read.table(\"MuskegonWeather.csv\", header=T, sep=\",\")\n\n# Remove the first two lines because they are from a previous year\nds = ds[-c(1, 2), ]\n\nhead(ds)\nds$date = as.Date(ds$date)\n\n# Now, let's make a preliminary plot\nqplot(ds$date, ds$AirTemp, geom=\"line\")\n\n# Using the DOY_Decimal parameter gives the graph more definition (because\n# we are not overplotting all of each day's points at the same x-value)\n# But the x-axis becomes less readable\nggplot(ds, aes(x=DOY_Decimal, y=AirTemp)) + geom_line()\n\n# The main way to fix that is to use the rather cryptic \"POSIX\" notation\n# This is a low-level time representation, but if we have the date and\n# the time in h:m:s, we can convert it by getting the date, hours and \n# minutes into the right format  \"yyyy-mm-dd hh:mm:ss\".  There are examples\n# on the net for this\n\n# Now, for moving averages.  To compute a moving average, we use the \"filter\"\n# command.  This applies an envelope to the data and compute a weighted average\n# but we need to define the weights\nweights = rep(1/10000, 10000)\nds$weightedAverage = filter(ds$AirTemp, weights, sides=2)\np = ggplot(ds, aes(DOY, AirTemp)) \np + geom_line(color=\"pink\") + \n    geom_line(size=1, color=\"red\", aes(x=DOY, y=weightedAverage))\n\n# Compute the loess fit, and subtract off the \nds$lFit = predict(loess(ds$AirTemp ~ ds$DOY))\np = ggplot(ds, aes(DOY, AirTemp)) \np + geom_line(color=\"pink\") + \n  geom_line(size=2, color=\"red\", aes(x=ds$DOY, y=lFit))\n\n# Then, we can subtract off the long term average and \np = ggplot(ds, aes(DOY, AirTemp - lFit))\np + geom_line(color=\"red\")\n",
+    "created" : 1445039559879.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2712606632",
+    "id" : "6537E42E",
+    "lastKnownWriteTime" : 1444876537,
+    "path" : "D:/CSC465/Lecture Examples/SmoothingExamples/MuskegonSmoothing.R",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

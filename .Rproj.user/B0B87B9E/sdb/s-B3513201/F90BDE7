@@ -1,0 +1,17 @@
+{
+    "contents" : "\n# For our first example, we create some random data with a \n# sequence of dates.  The \"seq\" function helps us format the \n# dates and times.  \nds = data.frame(timestamp = seq(from=as.POSIXct(\"2013-09-01 00:00:00\"), \n                                by=\"5 mins\", to=as.POSIXct(\"2013-10-01 00:00:00\")), \n                                value = rnorm(8641,0,1))\n\nhead(ds)\n\nrequire(ggplot2)\n\n# This is how you can separate out the date and the time from a date/time field in R\nds$date = as.Date(ds$timestamp, format=\"%Y-%m-%d\")\nds$time = format(ds$timestamp, \"%H:%M\")\n\n# Now, we build a label array that just has the \"hour\" stamps for each time.  These \n# will be used to label the x-axis.\nlab = with(ds, paste(format(ds$timestamp, \"%H\"), \"00\", sep=\":\"))\nhead(lab)\n\n# Finally, we plot by using the \"geom_tile\" geometry type which fills a rectangle around\n# the data point \nggplot(data = ds, aes(x=time, y=date, fill=value)) + geom_tile() +\n    scale_x_discrete(breaks = lab)\n\nweather = read.table(\"mkg2013.05t.csv\", header=T, sep=\",\")\nhead(weather)\nnames(weather)[5] = \"AirTemp\"\n\nggplot(data=weather, aes(x=UTC, y=DOY, fill=AirTemp, width=45)) + geom_tile()\n\nplot(weather$DOY, weather$AirTemp)\n",
+    "created" : 1445036617763.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2474993320",
+    "id" : "F90BDE7",
+    "lastKnownWriteTime" : 1444876608,
+    "path" : "D:/CSC465/Lecture Examples/HeatMapExamples/HeatMap.R",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

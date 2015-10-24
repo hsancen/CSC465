@@ -1,6 +1,10 @@
 {
-    "path" : "D:/CSC465/CSC465",
+    "path" : "D:/CSC465/CSC465/datasets",
     "sortOrder" : [
+        {
+            "ascending" : true,
+            "columnIndex" : 1
+        },
         {
             "ascending" : true,
             "columnIndex" : 2
